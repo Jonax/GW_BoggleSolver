@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -32,13 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoggleSolver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BoggleBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BogglePiece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoggleSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

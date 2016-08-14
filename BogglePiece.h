@@ -6,13 +6,18 @@
 class BogglePiece
 {
 	public:
-		BogglePiece(const char letter, const int numAdjacent);
+		BogglePiece(const char letter, const int numAdjacent, const char adjacencyFlags);
 		~BogglePiece();
+
+		const char GetAdjacencyFlags();
+
+		void AddLink(BogglePiece* pieceToLinkTo);
 
 	private:
 		char _letter;
 
-		std::vector<BogglePiece> adjacentPieces;
+		std::vector<BogglePiece*> _adjacentPieces;
+		char _adjacencyFlags;
 };
 
 #endif

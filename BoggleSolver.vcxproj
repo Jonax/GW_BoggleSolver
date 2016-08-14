@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="BoggleBoard.cpp" />
     <ClCompile Include="BogglePiece.cpp" />
     <ClCompile Include="BoggleSolver.cpp" />

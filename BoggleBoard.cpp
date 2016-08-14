@@ -3,14 +3,18 @@
 using namespace std;
 
 const int LINK_RIGHT = 0x1;
-const int LINK_UP    = 0x2;
+const int LINK_DOWN  = 0x2;
 const int LINK_LEFT  = 0x4;
-const int LINK_DOWN  = 0x8;
+const int LINK_UP    = 0x8;
+
 
 BoggleBoard::BoggleBoard(const int width, const int height)
 {
 	_width = width;
 	_height = height;
+
+	_pieces = vector<BogglePiece*>();
+	_pieces.reserve(_width * _height);
 }
 
 BoggleBoard::~BoggleBoard()
@@ -31,18 +35,18 @@ const bool BoggleBoard::Initialise(const char* board)
 	for (int i = 0; i < boardSize; ++i)
 	{
 		char sideAxis = 0;
-
+		
 		// If not on the left edge, then it has a right link.  
 		if (i % _width != 0)
-			sideAxis ^= LINK_RIGHT;
+			sideAxis ^= LINK_LEFT;
 
 		// If not on the top row, then it has a up link.  
-		if (i < _width)
+		if (i > _width)
 			sideAxis ^= LINK_UP;
 
 		// If not on the right edge, then it has a left link.  
 		if ((i + 1) % _width != 0)
-			sideAxis ^= LINK_LEFT;
+			sideAxis ^= LINK_RIGHT;
 
 		// If not on the bottom row, then it has a down link.  
 		// NOTE: Went for an i+w approach instead of i/w in case divisor performance is an issue.  
@@ -59,7 +63,46 @@ const bool BoggleBoard::Initialise(const char* board)
 		int totalNumLinks = CountSetBits(sideAxis);
 		totalNumLinks += (totalNumLinks - 1);
 
-		BogglePiece piece = BogglePiece(board[i], totalNumLinks);
+		BogglePiece* piece = new BogglePiece(board[i], totalNumLinks, sideAxis);
+		_pieces.push_back(piece);
+	}
+
+	for (std::vector<BogglePiece*>::iterator it = _pieces.begin(); it != _pieces.end(); ++it)
+	{
+		BogglePiece* piece = *it;
+		char adjLinks = piece->GetAdjacencyFlags();
+
+		if (adjLinks & LINK_LEFT)
+		{
+			piece->AddLink(*(it - 1));
+		}
+
+		if (adjLinks & LINK_UP)
+		{
+			piece->AddLink(*(it - _width));
+
+			if (adjLinks & LINK_LEFT)
+				piece->AddLink(*(it - _width - 1));
+
+			if (adjLinks & LINK_RIGHT)
+				piece->AddLink(*(it - _width + 1));
+		}
+
+		if (adjLinks & LINK_RIGHT)
+		{
+			piece->AddLink(*(it + 1));
+		}
+
+		if (adjLinks & LINK_DOWN)
+		{
+			piece->AddLink(*(it + _width));
+
+			if (adjLinks & LINK_LEFT)
+				piece->AddLink(*(it + _width - 1));
+
+			if (adjLinks & LINK_RIGHT)
+				piece->AddLink(*(it + _width + 1));
+		}
 	}
 
 	return true;
@@ -70,7 +113,7 @@ const char BoggleBoard::CountSetBits(char value)
 	// This uses Brian Kernighan's algorithm for quickly counting number of bits in a value.  
 	// Taken from: http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetTable
 
-	unsigned int v; // count the number of bits set in v
+	unsigned int v = value; // count the number of bits set in v
 	unsigned int c; // c accumulates the total bits set in v
 
 	for (c = 0; v; c++)

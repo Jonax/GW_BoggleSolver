@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include "BogglePiece.h"
 
@@ -19,6 +20,8 @@ class BoggleBoard
 
 		int _width;
 		int _height;
+
+		std::vector<BogglePiece*> _pieces;
 };
 
 #endif
