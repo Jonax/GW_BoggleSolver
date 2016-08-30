@@ -9,6 +9,7 @@ class BogglePiece
 		BogglePiece(const char letter, const int numAdjacent, const char adjacencyFlags);
 		~BogglePiece();
 
+		const char GetLetter();
 		const char GetAdjacencyFlags();
 
 		void AddLink(BogglePiece* pieceToLinkTo);

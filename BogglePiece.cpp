@@ -15,6 +15,11 @@ BogglePiece::~BogglePiece()
 	_adjacentPieces.clear();
 }
 
+const char BogglePiece::GetLetter()
+{
+	return _letter;
+}
+
 const char BogglePiece::GetAdjacencyFlags()
 {
 	return _adjacencyFlags;

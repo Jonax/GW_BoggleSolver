@@ -105,6 +105,10 @@ const bool BoggleBoard::Initialise(const char* board)
 		}
 	}
 
+	// Now that each piece has adjacency in their class, we no longer need to maintain the concept of a physical board.  
+	// Instead, sort the pieces by letter to make it easier to do one pass along the 
+	std::sort(_pieces.begin(), _pieces.end(), SortPieces);
+
 	return true;
 }
 
@@ -122,4 +126,9 @@ const char BoggleBoard::CountSetBits(char value)
 	}
 
 	return c;
+}
+
+const bool BoggleBoard::SortPieces(BogglePiece* a, BogglePiece* b)
+{
+	return a->GetLetter() > b->GetLetter();
 }

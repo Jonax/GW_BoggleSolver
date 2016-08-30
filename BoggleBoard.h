@@ -1,8 +1,9 @@
 #ifndef _BOGGLE_BOARD_H_
 #define _BOGGLE_BOARD_H_
 
-#include <string>
+#include <algorithm>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "BogglePiece.h"
@@ -17,6 +18,8 @@ class BoggleBoard
 
 	private:
 		const char CountSetBits(char value);
+
+		static const bool SortPieces(BogglePiece* a, BogglePiece* b);
 
 		int _width;
 		int _height;
